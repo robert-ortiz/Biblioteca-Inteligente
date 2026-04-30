@@ -1,0 +1,66 @@
+@import "./variables.scss";
+
+.favoritos {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    margin-top: $spacing-2xl;
+    border: 2px dashed $color-border;
+    border-radius: $border-radius-lg;
+    background: rgba(24, 24, 27, 0.3);
+  }
+
+  &__empty-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    text-align: center;
+  }
+
+  &__empty-icon {
+    font-size: $font-size-4xl;
+  }
+
+  &__empty-title {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__empty-description {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  &__empty-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-primary;
+    color: $color-text-primary;
+    border: none;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: background-color $transition-base;
+    margin-top: $spacing-lg;
+    align-self: center;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+  }
+}

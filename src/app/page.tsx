@@ -1,12 +1,27 @@
 export default function Home() {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 py-20">
-      <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-        Biblioteca Inteligente
-      </h1>
-      <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-300 sm:text-lg">
-        Usa la navegación superior para explorar la búsqueda, los favoritos, el detalle de un libro y la sección acerca de la aplicación.
-      </p>
+    <section className="page-section home">
+      <div className="space-y-6 home__hero">
+        <div>
+          <h1 className="home__title-main">
+            Descubre libros
+          </h1>
+          <p className="home__title-sub">
+            de manera inteligente
+          </p>
+        </div>
+        <p className="home__description">
+          Busca entre miles de libros, explora detalles, guarda tus favoritos y mantén tu biblioteca personal. Todos los datos provienen de Open Library, una base de datos abierta y gratuita.
+        </p>
+        <div className="home__buttons">
+          <a href="/buscar" className="btn btn--primary">
+            Comenzar búsqueda
+          </a>
+          <a href="/acerca" className="btn btn--secondary">
+            Más información
+          </a>
+        </div>
+      </div>
     </section>
   );
 }

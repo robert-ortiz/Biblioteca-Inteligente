@@ -1,0 +1,227 @@
+@import "./variables.scss";
+@import "./navbar.scss";
+@import "./pages.scss";
+@import "./home.scss";
+@import "./buscar.scss";
+@import "./favoritos.scss";
+@import "./acerca.scss";
+@import "./libro.scss";
+
+// Reset y estilos base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  background-color: $color-background;
+  color: $color-text-primary;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $color-background;
+  color: $color-text-primary;
+}
+
+main {
+  flex: 1;
+}
+
+// Tipografía
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: $font-size-4xl;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-3xl;
+  }
+}
+
+h2 {
+  font-size: $font-size-3xl;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-2xl;
+  }
+}
+
+h3 {
+  font-size: $font-size-2xl;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-xl;
+  }
+}
+
+p {
+  margin-bottom: $spacing-md;
+  line-height: 1.6;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-primary-light;
+    text-decoration: underline;
+  }
+}
+
+// Formularios
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+textarea {
+  width: 100%;
+  padding: $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  transition: border-color $transition-base;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+// Botones
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-base;
+  white-space: nowrap;
+
+  &--primary {
+    background-color: $color-primary;
+    color: $color-text-primary;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+
+    &:active {
+      opacity: 0.8;
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+
+    &:hover {
+      background-color: $color-background-secondary;
+    }
+  }
+}
+
+// Utilidades
+.mt-4 {
+  margin-top: $spacing-lg;
+}
+
+.mt-6 {
+  margin-top: $spacing-xl;
+}
+
+.mt-8 {
+  margin-top: $spacing-2xl;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+.mb-4 {
+  margin-bottom: $spacing-lg;
+}
+
+.gap-2 {
+  gap: $spacing-sm;
+}
+
+.gap-4 {
+  gap: $spacing-lg;
+}
+
+.space-y-2 > * + * {
+  margin-top: $spacing-sm;
+}
+
+.space-y-4 > * + * {
+  margin-top: $spacing-lg;
+}
+
+.space-y-6 > * + * {
+  margin-top: $spacing-xl;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}

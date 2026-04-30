@@ -1,0 +1,55 @@
+@import "./variables.scss";
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+  }
+
+  &__title-main {
+    font-size: $font-size-5xl;
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    background: linear-gradient(to right, #60a5fa, #3b82f6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  &__title-sub {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin: $spacing-sm 0;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__description {
+    max-width: 42rem;
+    font-size: $font-size-lg;
+    line-height: 1.75;
+    color: $color-text-secondary;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: $spacing-lg;
+    padding-top: $spacing-lg;
+
+    @media (max-width: $breakpoint-sm) {
+      flex-direction: column;
+    }
+  }
+}

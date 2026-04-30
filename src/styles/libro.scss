@@ -1,0 +1,108 @@
+@import "./variables.scss";
+
+.libro {
+  display: flex;
+  flex-direction: column;
+
+  &__back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-md $spacing-lg;
+    background-color: transparent;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: background-color $transition-base;
+    margin-bottom: $spacing-lg;
+    width: fit-content;
+
+    &:hover {
+      background-color: $color-background-secondary;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    margin-top: $spacing-2xl;
+
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  &__cover-section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  &__cover {
+    aspect-ratio: 16 / 9;
+    border-radius: $border-radius-lg;
+    background-color: $color-background-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-text-muted;
+  }
+
+  &__add-favorite-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-primary;
+    color: $color-text-primary;
+    border: none;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: background-color $transition-base;
+    width: 100%;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+  }
+
+  &__info-section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    color: $color-text-secondary;
+  }
+
+  &__info-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info-title {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__info-value {
+    margin-top: $spacing-sm;
+  }
+
+  &__info-id {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin-top: $spacing-lg;
+  }
+}

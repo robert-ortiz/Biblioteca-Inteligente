@@ -1,0 +1,98 @@
+@import "./variables.scss";
+
+.page-section {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex: 1;
+  padding: $spacing-xl $spacing-lg;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-lg $spacing-md;
+  }
+}
+
+.page-heading {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-xl;
+  }
+}
+
+.page-subheading {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-top: $spacing-sm;
+}
+
+.page-description {
+  font-size: $font-size-base;
+  line-height: 1.75;
+  color: $color-text-secondary;
+  max-width: 42rem;
+}
+
+.page-grid {
+  display: grid;
+  gap: $spacing-lg;
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid $color-border-light;
+  border-radius: $border-radius-lg;
+  background: rgba(24, 24, 27, 0.5);
+  padding: $spacing-lg;
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__content {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    line-height: 1.6;
+  }
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20rem;
+  border: 2px dashed $color-border;
+  border-radius: $border-radius-lg;
+  background: rgba(24, 24, 27, 0.3);
+  text-align: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__icon {
+    font-size: $font-size-3xl;
+  }
+
+  &__title {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__description {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+}
