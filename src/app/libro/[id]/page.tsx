@@ -60,6 +60,38 @@ export default async function LibroPage({ params }: LibroPageProps) {
           </button>
         </div>
 
-       
+     {/* Sección de Información*/}
+        <div className="md:w-2/3 space-y-8">
+          <h1 className="text-5xl font-extrabold text-white leading-tight">{book.title}</h1>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="libro__info-block">
+              <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Publicación</h3>
+              <p className="text-lg text-zinc-200">
+                {/* Intentamos obtener el año de creación o publicación */}
+                {book.first_publish_date || (book.created?.value ? new Date(book.created.value).getFullYear() : "Desconocido")}
+              </p>
+            </div>
+
+            <div className="libro__info-block">
+              <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Temas / Categorías</h3>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {book.subjects?.slice(0, 6).map((subject: string, index: number) => (
+                  <span key={index} className="px-3 py-1 bg-zinc-800 text-zinc-400 text-sm rounded-full border border-zinc-700">
+                    {subject}
+                  </span>
+                )) || <p className="text-zinc-500 italic">Sin etiquetas</p>}
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-zinc-800">
+            <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Descripción</h3>
+            <p className="text-zinc-300 text-lg leading-relaxed">
+              {description}
+            </p>
+          </div>
+
+         
   );
 }
