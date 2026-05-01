@@ -67,6 +67,22 @@ export default function BuscarPage() {
           </button>
         </div>
 
-        
+        {/* Filtrar y ordenar*/}
+        <div className="flex items-center gap-3 text-sm text-zinc-400 mt-2 pl-1">
+          <label htmlFor="sortSelect">Ordenar por:</label>
+          <select 
+            id="sortSelect"
+            className="bg-transparent border-b border-zinc-700 pb-1 text-zinc-200"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="">Relevancia</option>
+            <option value="new">Más reciente</option>
+            <option value="old">Más antiguo</option>
+          </select>
+        </div>
+      </form>
+
+      
   );
 }
