@@ -83,6 +83,36 @@ export default function BuscarPage() {
         </div>
       </form>
 
-      
+      {/* --- MANEJO DE ESTADOS VISUALES--- */}
+
+      {/* Criterios: Loading & Skeleton loading */}
+      {loading && <Loading />}
+
+      {/* Criterio: Error */}
+      {error && <ErrorMessage message={error} />}
+
+      {/* Criterio: Empty state (Se muestra si terminó la carga, no hay error, ya se buscó y no hay resultados) */}
+      {!loading && !error && hasSearched && results.length === 0 && (
+        <div className="text-center p-12 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-500">
+          <p className="text-6xl mb-4">🔎</p>
+          <p className="text-xl font-semibold text-zinc-300">No encontramos resultados</p>
+          <p className="mt-2">Intenta ajustar tu búsqueda o el tipo de filtro.</p>
+        </div>
+      )}
+
+      {/* Resultados dinámicos (HU5) */}
+      {!loading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {results.map((book) => (
+            <BookCard 
+              key={book.key}
+              workKey={book.key}
+              title={book.title}
+              authors={book.author_name}
+            />
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
