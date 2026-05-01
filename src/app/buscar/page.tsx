@@ -12,7 +12,7 @@ export default function BuscarPage() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hasSearched, setHasSearched] = useState(false); 
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ export default function BuscarPage() {
 
       <form onSubmit={handleSearch} className="flex flex-col gap-4 mb-10 bg-zinc-900 p-6 rounded-xl border border-zinc-800">
         <div className="flex flex-col md:flex-row gap-3">
-          {/* Selector HU5 */}
+          {/* Selector*/}
           <select 
             className="bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-white"
             value={type}
@@ -53,7 +53,7 @@ export default function BuscarPage() {
             <option value="author">Autor</option>
           </select>
           
-          {/* Input HU5 */}
+          {/* Input*/}
           <input
             type="text"
             className="flex-1 bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-white placeholder:text-zinc-500"
@@ -67,7 +67,7 @@ export default function BuscarPage() {
           </button>
         </div>
 
-        {/* Filtrar y ordenar*/}
+        {/*Filtrar y ordenar*/}
         <div className="flex items-center gap-3 text-sm text-zinc-400 mt-2 pl-1">
           <label htmlFor="sortSelect">Ordenar por:</label>
           <select 
@@ -91,7 +91,7 @@ export default function BuscarPage() {
       {/* Criterio: Error */}
       {error && <ErrorMessage message={error} />}
 
-      {/* Criterio: Empty state (Se muestra si terminó la carga, no hay error, ya se buscó y no hay resultados) */}
+      {/* Criterio: Empty state */}
       {!loading && !error && hasSearched && results.length === 0 && (
         <div className="text-center p-12 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-500">
           <p className="text-6xl mb-4">🔎</p>
@@ -100,7 +100,7 @@ export default function BuscarPage() {
         </div>
       )}
 
-      {/* Resultados dinámicos (HU5) */}
+      {/* Resultados dinámicos*/}
       {!loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {results.map((book) => (
