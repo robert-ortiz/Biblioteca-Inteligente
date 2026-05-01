@@ -1,6 +1,6 @@
 // Servicio centralizado para consumir Open Library API
 
-const OPEN_LIBRARY_API = 'https://openlibrary.org/api';
+const OPEN_LIBRARY_API = 'https://openlibrary.org';
 
 /**
  * Busca libros en Open Library

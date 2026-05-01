@@ -8,7 +8,6 @@ type Book = {
 };
 
 export default async function Home() {
-  // Carga inicial según la HU: query = 'programming'
   const res = await searchBooks("programming");
   const docs: Book[] = res?.docs?.slice(0, 8) ?? [];
 
