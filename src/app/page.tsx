@@ -3,8 +3,12 @@ import BookCard from "@/components/BookCard";
 
 type Book = {
   key?: string;
+  key?: string;
   title?: string;
   author_name?: string[];
+  cover_i?: number;
+  first_publish_year?: number;
+  edition_count?: number;
 };
 
 export default async function Home() {
@@ -36,6 +40,9 @@ export default async function Home() {
               workKey={b.key}
               title={b.title}
               authors={b.author_name}
+              coverId={b.cover_i}
+              firstPublishYear={b.first_publish_year}
+              editionCount={b.edition_count}
             />
           ))}
         </div>

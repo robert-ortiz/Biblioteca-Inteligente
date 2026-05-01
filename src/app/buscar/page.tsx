@@ -169,7 +169,15 @@ function BuscarContent() {
       {!loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {results.map((book) => (
-            <BookCard key={book.key} workKey={book.key} title={book.title} authors={book.author_name} />
+            <BookCard 
+              key={book.key} 
+              workKey={book.key} 
+              title={book.title} 
+              authors={book.author_name}
+              coverId={book.cover_i}
+              firstPublishYear={book.first_publish_year}
+              editionCount={book.edition_count}
+            />
           ))}
         </div>
       )}

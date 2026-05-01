@@ -24,10 +24,17 @@ export default function FavoritosPage() {
           ids.map(async (id: string) => {
             const data = await getBookDetails(id);
 
+            const coverId = data.covers && data.covers.length > 0 && data.covers[0] !== -1
+              ? data.covers[0]
+              : null;
+
             return {
               key: id,
               title: data.title,
               author_name: data.authors?.map((a: any) => a.name) || ["Autor desconocido"],
+              cover_i: coverId,
+              first_publish_year: data.first_publish_date ? new Date(data.first_publish_date).getFullYear() : null,
+              edition_count: data.edition_count || null,
             };
           })
         );
@@ -64,6 +71,9 @@ export default function FavoritosPage() {
               workKey={book.key}
               title={book.title}
               authors={book.author_name}
+              coverId={book.cover_i}
+              firstPublishYear={book.first_publish_year}
+              editionCount={book.edition_count}
             />
           ))}
         </div>
