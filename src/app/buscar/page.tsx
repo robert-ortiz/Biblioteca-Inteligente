@@ -1,36 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { searchBooks } from "@/services/openLibraryService";
 import BookCard from "@/components/BookCard";
 import Loading from "@/components/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
 
-export default function BuscarPage() {
-  const [query, setQuery] = useState("");
-  const [type, setType] = useState("q"); 
-  const [sort, setSort] = useState(""); 
+function BuscarContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryUrl = searchParams.get("q") || "";
+  const typeUrl = searchParams.get("type") || "q";
+  const sortUrl = searchParams.get("sort") || "";
+
+  const [query, setQuery] = useState(queryUrl);
+  const [type, setType] = useState(typeUrl); 
+  const [sort, setSort] = useState(sortUrl); 
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
+  const [hasSearched, setHasSearched] = useState(!!queryUrl);
+  useEffect(() => {
+    if (queryUrl) {
+      ejecutarBusqueda(queryUrl, typeUrl, sortUrl);
+    }
+  }, [queryUrl, typeUrl, sortUrl]);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-
+  const ejecutarBusqueda = async (q: string, t: string, s: string) => {
     setLoading(true);
     setError("");
-    setHasSearched(true); 
-    setResults([]); 
-
     try {
-      const data = await searchBooks(query, type, sort);
+      const data = await searchBooks(q, t, s);
       setResults(data.docs || []);
     } catch (err) {
-      setError("Hubo un problema al conectar con Open Library. Inténtalo de nuevo.");
+      setError("Error al conectar con Open Library.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setHasSearched(true);
+    router.push(`/buscar?q=${query}&type=${type}&sort=${sort}`);
   };
 
   return (
@@ -42,7 +55,6 @@ export default function BuscarPage() {
 
       <form onSubmit={handleSearch} className="flex flex-col gap-4 mb-10 bg-zinc-900 p-6 rounded-xl border border-zinc-800">
         <div className="flex flex-col md:flex-row gap-3">
-          {/* Selector*/}
           <select 
             className="bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-white"
             value={type}
@@ -53,7 +65,6 @@ export default function BuscarPage() {
             <option value="author">Autor</option>
           </select>
           
-          {/* Input*/}
           <input
             type="text"
             className="flex-1 bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-white placeholder:text-zinc-500"
@@ -67,7 +78,6 @@ export default function BuscarPage() {
           </button>
         </div>
 
-        {/*Filtrar y ordenar*/}
         <div className="flex items-center gap-3 text-sm text-zinc-400 mt-2 pl-1">
           <label htmlFor="sortSelect">Ordenar por:</label>
           <select 
@@ -83,36 +93,29 @@ export default function BuscarPage() {
         </div>
       </form>
 
-      {/* --- MANEJO DE ESTADOS VISUALES--- */}
-
-      {/* Criterios: Loading & Skeleton loading */}
       {loading && <Loading />}
-
-      {/* Criterio: Error */}
       {error && <ErrorMessage message={error} />}
-
-      {/* Criterio: Empty state */}
       {!loading && !error && hasSearched && results.length === 0 && (
         <div className="text-center p-12 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-500">
           <p className="text-6xl mb-4">🔎</p>
           <p className="text-xl font-semibold text-zinc-300">No encontramos resultados</p>
-          <p className="mt-2">Intenta ajustar tu búsqueda o el tipo de filtro.</p>
         </div>
       )}
 
-      {/* Resultados dinámicos*/}
       {!loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {results.map((book) => (
-            <BookCard 
-              key={book.key}
-              workKey={book.key}
-              title={book.title}
-              authors={book.author_name}
-            />
+            <BookCard key={book.key} workKey={book.key} title={book.title} authors={book.author_name} />
           ))}
         </div>
       )}
     </section>
+  );
+}
+export default function BuscarPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <BuscarContent />
+    </Suspense>
   );
 }

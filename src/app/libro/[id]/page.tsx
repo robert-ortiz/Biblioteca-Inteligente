@@ -1,6 +1,9 @@
+"use client"; 
+
 import { getBookDetails } from "@/services/openLibraryService";
+import { useRouter } from "next/navigation"; 
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 type LibroPageProps = {
   params: Promise<{
@@ -8,37 +11,51 @@ type LibroPageProps = {
   }>;
 };
 
-export default async function LibroPage({ params }: LibroPageProps) {
-  const { id } = await params;
-  let book;
+export default function LibroPage({ params }: LibroPageProps) {
+  const router = useRouter();
+  const { id } = use(params);
+  const [book, setBook] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    book = await getBookDetails(id);
-  } catch (error) {
+  useEffect(() => {
+    getBookDetails(id)
+      .then(data => setBook(data))
+      .catch(() => setBook(null))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return <div className="p-20 text-center text-white text-2xl font-bold">Cargando detalles...</div>;
+
+  if (!book) {
     return (
       <div className="p-20 text-center">
-        <h2 className="text-2xl">Libro no encontrado</h2>
+        <h2 className="text-2xl text-white">Libro no encontrado</h2>
         <Link href="/buscar" className="text-blue-500 underline mt-4 block">Volver al buscador</Link>
       </div>
     );
   }
 
-  // Lógica para la descripción
+  const coverId = (book.covers && book.covers.length > 0 && book.covers[0] !== -1) 
+    ? book.covers[0] 
+    : (book.cover_id || null);
+  
+  const coverUrl = coverId 
+    ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` 
+    : null;
+
   const description = typeof book.description === 'string' 
     ? book.description 
     : book.description?.value || "No hay una descripción disponible para esta obra.";
 
-  // URL de Portada Grande
-  const coverUrl = book.covers && book.covers.length > 0
-    ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
-    : null;
-
   return (
     <section className="page-section libro max-w-5xl mx-auto p-6 md:p-12">
-      {/* Botón Volver*/}
-      <Link href="/buscar" className="libro__back-button mb-8 inline-flex items-center text-zinc-400 hover:text-white transition">
+      {/* BOTÓN VOLVER: */}
+      <button 
+        onClick={() => router.back()} 
+        className="libro__back-button mb-8 inline-flex items-center text-zinc-400 hover:text-white transition bg-transparent border-none cursor-pointer p-0"
+      >
         <span className="mr-2">←</span> Volver a resultados
-      </Link>
+      </button>
 
       <div className="flex flex-col md:flex-row gap-12">
         {/* Sección de Portada */}
@@ -51,7 +68,10 @@ export default async function LibroPage({ params }: LibroPageProps) {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-zinc-600">Portada no disponible</span>
+              <div className="text-center text-zinc-600">
+                <p className="text-4xl">📖</p>
+                <p className="text-sm">Portada no disponible</p>
+              </div>
             )}
           </div>
           
@@ -68,8 +88,8 @@ export default async function LibroPage({ params }: LibroPageProps) {
             <div className="libro__info-block">
               <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Publicación</h3>
               <p className="text-lg text-zinc-200">
-                {/* Intentamos obtener el año de creación o publicación */}
-                {book.first_publish_date || (book.created?.value ? new Date(book.created.value).getFullYear() : "Desconocido")}
+                {/*first_publish_date */}
+                {book.first_publish_date || "Desconocido"}
               </p>
             </div>
 
