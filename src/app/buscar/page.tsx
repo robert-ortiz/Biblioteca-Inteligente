@@ -13,4 +13,23 @@ export default function BuscarPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false); 
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setLoading(true);
+    setError("");
+    setHasSearched(true); 
+    setResults([]);
+
+    try {
+      const data = await searchBooks(query, type, sort);
+      setResults(data.docs || []);
+    } catch (err) {
+      setError("Hubo un problema al conectar con Open Library. Inténtalo de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
 }
