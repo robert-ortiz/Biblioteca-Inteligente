@@ -52,7 +52,21 @@ export default function BuscarPage() {
             <option value="title">Título</option>
             <option value="author">Autor</option>
           </select>
-  
-    </section>
+          
+          {/* Input HU5 */}
+          <input
+            type="text"
+            className="flex-1 bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-white placeholder:text-zinc-500"
+            placeholder="Clean Code, Tolkien, Artificial Intelligence..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          
+          <button type="submit" className="btn btn--primary bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold text-white transition">
+            {loading ? "Buscando..." : "Buscar"}
+          </button>
+        </div>
+
+        
   );
 }
