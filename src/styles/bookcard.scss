@@ -7,17 +7,21 @@
   padding: $spacing-md;
   border-radius: $border-radius-md;
   /* Reemplazamos el rgba estático por el color secundario dinámico */
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-light);
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+  padding: calc(#{$spacing-md} + 0.25rem);
 
   & .card__title {
     font-size: $font-size-lg;
-    color: var(--text);
+    color: var(--primary-dark);
+    line-height: 1.15;
   }
 
   & .card__content {
     font-size: $font-size-sm;
     color: var(--text-secondary);
+    opacity: 0.95;
   }
 
   & .card__actions {
@@ -27,6 +31,15 @@
 
     .btn {
       min-width: 84px;
+      font-weight: 600;
     }
   }
+
+  /* metadata block styles */
+  & .grid {
+    background: transparent;
+  }
+
+  & .text-zinc-600 { color: var(--text-muted) !important; }
+  & .text-white { color: var(--text) !important; }
 }
