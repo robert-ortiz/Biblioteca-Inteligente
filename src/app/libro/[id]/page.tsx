@@ -60,7 +60,7 @@ export default async function LibroPage({ params }: LibroPageProps) {
           </button>
         </div>
 
-     {/* Sección de Información*/}
+        {/* Sección de Información*/}
         <div className="md:w-2/3 space-y-8">
           <h1 className="text-5xl font-extrabold text-white leading-tight">{book.title}</h1>
           
@@ -92,6 +92,20 @@ export default async function LibroPage({ params }: LibroPageProps) {
             </p>
           </div>
 
-         
+          {/* Enlace Open Library*/}
+          <div className="pt-8">
+            <a 
+              href={`https://openlibrary.org/works/${id}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium"
+            >
+              Ver ficha técnica completa en Open Library 
+              <span className="ml-2 text-sm">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
