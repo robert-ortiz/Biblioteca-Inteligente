@@ -1,46 +1,31 @@
-type BookPageProps = {
+import { getBookDetails } from "@/services/openLibraryService";
+import Link from "next/link";
+import Image from "next/image";
+
+type LibroPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
 
-export default async function LibroPage({ params }: BookPageProps) {
+export default async function LibroPage({ params }: LibroPageProps) {
   const { id } = await params;
+  let book;
 
-  return (
-    <section className="page-section libro">
-      <button className="libro__back-button">
-        ← Volver
-      </button>
-
-      <h1 className="libro__title">Título del libro</h1>
-
-      <div className="libro__content">
-        <div className="libro__cover-section">
-          <div className="libro__cover">
-            Portada no disponible
-          </div>
-          <button className="libro__add-favorite-button">
-            Agregar a favoritos
-          </button>
-        </div>
-
-        <div className="libro__info-section">
-          <div className="libro__info-block">
-            <h3 className="libro__info-title">Autores</h3>
-            <p className="libro__info-value">Sin información disponible</p>
-          </div>
-          <div className="libro__info-block">
-            <h3 className="libro__info-title">Año de publicación</h3>
-            <p className="libro__info-value">Sin información disponible</p>
-          </div>
-          <div className="libro__info-block">
-            <h3 className="libro__info-title">Descripción</h3>
-            <p className="libro__info-value">Sin información disponible</p>
-          </div>
-          <p className="libro__info-id">ID: {id}</p>
-        </div>
+  try {
+    book = await getBookDetails(id);
+  } catch (error) {
+    return (
+      <div className="p-20 text-center">
+        <h2 className="text-2xl">Libro no encontrado</h2>
+        <Link href="/buscar" className="text-blue-500 underline mt-4 block">Volver al buscador</Link>
       </div>
-    </section>
+    );
+  }
+
+  // Lógica para la descripción
+  const description = typeof book.description === 'string' 
+    ? book.description 
+    : book.description?.value || "No hay una descripción disponible para esta obra.";
   );
 }
