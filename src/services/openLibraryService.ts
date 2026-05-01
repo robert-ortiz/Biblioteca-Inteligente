@@ -2,10 +2,10 @@
 const OPEN_LIBRARY_API = 'https://openlibrary.org';
 
 /**
- * Busca libros en Open Library (Actualizado para HU5 y HU6)
+ * Busca libros en Open Library 
  * @param query - Término de búsqueda
- * @param type - Tipo de búsqueda (q, title, author) -> REQUERIDO PARA TU HU5
- * @param sort - Ordenamiento (new, old, editions) -> REQUERIDO PARA TU HU6
+ * @param type - Tipo de búsqueda (q, title, author)
+ * @param sort - Ordenamiento (new, old, editions)
  */
 export async function searchBooks(query: string, type: string = 'q', sort: string = '') {
   try {
@@ -21,6 +21,26 @@ export async function searchBooks(query: string, type: string = 'q', sort: strin
     return data; // Retornamos el objeto completo para que el Home no falle
   } catch (error) {
     console.error('Error al buscar libros:', error);
+    throw error;
+  }
+}
+
+/**
+ * Obtiene los detalles de un libro específico 
+ * @param workId - ID de la obra
+ */
+export async function getBookDetails(workId: string) {
+  try {
+    // Limpiamos el ID por si viene con "/works/"
+    const id = workId.replace('/works/', '');
+    const response = await fetch(`${OPEN_LIBRARY_API}/works/${id}.json`);
+    
+    if (!response.ok) {
+      throw new Error(`Error al obtener detalle: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error al obtener detalles del libro:', error);
     throw error;
   }
 }
