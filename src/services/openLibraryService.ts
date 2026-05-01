@@ -6,21 +6,42 @@ const OPEN_LIBRARY_API = 'https://openlibrary.org';
  * @param query - Término de búsqueda
  * @param type - Tipo de búsqueda (q, title, author)
  * @param sort - Ordenamiento (new, old, editions)
+ * @param page - Página de resultados
+ * @param yearMin - Año mínimo de publicación
+ * @param yearMax - Año máximo de publicación
+ * @param lang - Idioma (ej: 'es', 'en', 'fr')
  */
-export async function searchBooks(query: string, type: string = 'q', sort: string = '', page: number = 1) {
+export async function searchBooks(
+  query: string, 
+  type: string = 'q', 
+  sort: string = '', 
+  page: number = 1,
+  yearMin: string = '',
+  yearMax: string = '',
+  lang: string = ''
+) {
   try {
-    // Aquí armamos el link largo que mencionabas antes
-    // Si hay sort, lo agregamos al link, si no, se queda vacío
     let url = `${OPEN_LIBRARY_API}/search.json?${type}=${encodeURIComponent(query)}&page=${page}`;
+    
     if (sort && sort !== "") {
       url += `&sort=${sort}`;
     }
+    if (yearMin && yearMin !== "") {
+      url += `&first_publish_year=[${yearMin}%20TO%20*]`;
+    }
+    if (yearMax && yearMax !== "") {
+      url += `&first_publish_year=[*%20TO%20${yearMax}]`;
+    }
+    if (lang && lang !== "") {
+      url += `&language=${lang}`;
+    }
+    
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error en búsqueda: ${response.status}`);
     }
     const data = await response.json();
-    return data; // Retornamos el objeto completo para que el Home no falle
+    return data;
   } catch (error) {
     console.error('Error al buscar libros:', error);
     throw error;

@@ -4,6 +4,7 @@ import { getBookDetails } from "@/services/openLibraryService";
 import { useRouter } from "next/navigation"; 
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
+import { isFavorite, toggleFavorite } from "@/utils/favorites";
 
 type LibroPageProps = {
   params: Promise<{
@@ -16,13 +17,21 @@ export default function LibroPage({ params }: LibroPageProps) {
   const { id } = use(params);
   const [book, setBook] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     getBookDetails(id)
       .then(data => setBook(data))
       .catch(() => setBook(null))
       .finally(() => setLoading(false));
+    
+    setIsFav(isFavorite(id));
   }, [id]);
+
+  const handleToggleFavorite = () => {
+    const newState = toggleFavorite(id);
+    setIsFav(newState);
+  };
 
   if (loading) return <div className="p-20 text-center text-white text-2xl font-bold">Cargando detalles...</div>;
 
@@ -46,6 +55,8 @@ export default function LibroPage({ params }: LibroPageProps) {
   const description = typeof book.description === 'string' 
     ? book.description 
     : book.description?.value || "No hay una descripción disponible para esta obra.";
+
+  const authors = book.authors?.map((a: any) => a.name).join(", ") || "Autor desconocido";
 
   return (
     <section className="page-section libro max-w-5xl mx-auto p-6 md:p-12">
@@ -75,29 +86,38 @@ export default function LibroPage({ params }: LibroPageProps) {
             )}
           </div>
           
-          <button className="w-full mt-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
-            Agregar a favoritos
+          <button 
+            onClick={handleToggleFavorite}
+            className={`w-full mt-6 py-3 font-bold rounded-lg transition ${
+              isFav 
+                ? 'bg-red-600 hover:bg-red-700 text-white' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {isFav ? '❤️ Quitar de favoritos' : '🤍 Agregar a favoritos'}
           </button>
         </div>
 
         {/* Sección de Información*/}
         <div className="md:w-2/3 space-y-8">
-          <h1 className="text-5xl font-extrabold text-white leading-tight">{book.title}</h1>
+          <div>
+            <h1 className="text-5xl font-extrabold text-white leading-tight">{book.title}</h1>
+            <p className="text-xl text-zinc-400 mt-2">{authors}</p>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="libro__info-block">
               <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Publicación</h3>
               <p className="text-lg text-zinc-200">
-                {/*first_publish_date */}
                 {book.first_publish_date || "Desconocido"}
               </p>
             </div>
 
             <div className="libro__info-block">
-              <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Temas / Categorías</h3>
+              <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Temas Relacionados</h3>
               <div className="flex flex-wrap gap-2 mt-2">
-                {book.subjects?.slice(0, 6).map((subject: string, index: number) => (
-                  <span key={index} className="px-3 py-1 bg-zinc-800 text-zinc-400 text-sm rounded-full border border-zinc-700">
+                {book.subjects?.slice(0, 8).map((subject: string, index: number) => (
+                  <span key={index} className="px-3 py-1 bg-gradient-to-r from-blue-900 to-blue-800 text-blue-100 text-sm rounded-full border border-blue-700 hover:border-blue-600 transition">
                     {subject}
                   </span>
                 )) || <p className="text-zinc-500 italic">Sin etiquetas</p>}
@@ -113,15 +133,15 @@ export default function LibroPage({ params }: LibroPageProps) {
           </div>
 
           {/* Enlace Open Library*/}
-          <div className="pt-8">
+          <div className="pt-8 flex gap-4">
             <a 
               href={`https://openlibrary.org/works/${id}`} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
             >
-              Ver ficha técnica completa en Open Library 
-              <span className="ml-2 text-sm">↗</span>
+              Abrir en Open Library
+              <span className="ml-2">↗</span>
             </a>
           </div>
         </div>

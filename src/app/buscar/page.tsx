@@ -9,14 +9,20 @@ import ErrorMessage from "@/components/ErrorMessage";
 function BuscarContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const queryUrl = searchParams.get("q") || "";
-  const typeUrl = searchParams.get("type") || "q";
-  const sortUrl = searchParams.get("sort") || "";
+  const queryUrl = searchParams?.get("q") || "";
+  const typeUrl = searchParams?.get("type") || "q";
+  const sortUrl = searchParams?.get("sort") || "";
+  const yearMinUrl = searchParams?.get("yearMin") || "";
+  const yearMaxUrl = searchParams?.get("yearMax") || "";
+  const langUrl = searchParams?.get("lang") || "";
   const [page, setPage] = useState(1);
 
   const [query, setQuery] = useState(queryUrl);
   const [type, setType] = useState(typeUrl); 
-  const [sort, setSort] = useState(sortUrl); 
+  const [sort, setSort] = useState(sortUrl);
+  const [yearMin, setYearMin] = useState(yearMinUrl);
+  const [yearMax, setYearMax] = useState(yearMaxUrl);
+  const [lang, setLang] = useState(langUrl);
   const [results, setResults] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,15 +32,15 @@ function BuscarContent() {
   const totalPages = Math.ceil(total / 100);
   useEffect(() => {
     if (queryUrl) {
-      ejecutarBusqueda(queryUrl, typeUrl, sortUrl, page);
+      ejecutarBusqueda(queryUrl, typeUrl, sortUrl, page, yearMinUrl, yearMaxUrl, langUrl);
     }
-  }, [queryUrl, typeUrl, sortUrl, page]);
+  }, [queryUrl, typeUrl, sortUrl, page, yearMinUrl, yearMaxUrl, langUrl]);
 
-  const ejecutarBusqueda = async (q: string, t: string, s: string, p: number) => {
+  const ejecutarBusqueda = async (q: string, t: string, s: string, p: number, yMin: string, yMax: string, l: string) => {
     setLoading(true);
     setError("");
     try {
-      const data = await searchBooks(q, t, s, p);
+      const data = await searchBooks(q, t, s, p, yMin, yMax, l);
       setResults(data.docs || []);
       setTotal(data.numFound || 0);
     } catch (err) {
@@ -49,7 +55,15 @@ function BuscarContent() {
     if (!query.trim()) return;
     setHasSearched(true);
     setPage(1);
-    router.push(`/buscar?q=${query}&type=${type}&sort=${sort}`);
+    const params = new URLSearchParams({
+      q: query,
+      type: type,
+      sort: sort,
+      yearMin: yearMin,
+      yearMax: yearMax,
+      lang: lang,
+    });
+    router.push(`/buscar?${params.toString()}`);
   };
 
   return (
@@ -84,18 +98,62 @@ function BuscarContent() {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 text-sm text-zinc-400 mt-2 pl-1">
-          <label htmlFor="sortSelect">Ordenar por:</label>
-          <select 
-            id="sortSelect"
-            className="bg-transparent border-b border-zinc-700 pb-1 text-zinc-200"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="">Relevancia</option>
-            <option value="new">Más reciente</option>
-            <option value="old">Más antiguo</option>
-          </select>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="yearMin" className="text-zinc-400">Año desde:</label>
+            <input
+              id="yearMin"
+              type="number"
+              className="bg-zinc-800 border border-zinc-700 p-2 rounded-lg text-white"
+              placeholder="2000"
+              value={yearMin}
+              onChange={(e) => setYearMin(e.target.value)}
+            />
+          </div>
+          
+          <div className="flex flex-col gap-1">
+            <label htmlFor="yearMax" className="text-zinc-400">Año hasta:</label>
+            <input
+              id="yearMax"
+              type="number"
+              className="bg-zinc-800 border border-zinc-700 p-2 rounded-lg text-white"
+              placeholder="2024"
+              value={yearMax}
+              onChange={(e) => setYearMax(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="lang" className="text-zinc-400">Idioma:</label>
+            <select 
+              id="lang"
+              className="bg-zinc-800 border border-zinc-700 p-2 rounded-lg text-white"
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="eng">Inglés</option>
+              <option value="spa">Español</option>
+              <option value="fra">Francés</option>
+              <option value="deu">Alemán</option>
+              <option value="ita">Italiano</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="sortSelect" className="text-zinc-400">Ordenar por:</label>
+            <select 
+              id="sortSelect"
+              className="bg-zinc-800 border border-zinc-700 p-2 rounded-lg text-white"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="">Relevancia</option>
+              <option value="new">Más reciente</option>
+              <option value="old">Más antiguo</option>
+              <option value="editions">Más ediciones</option>
+            </select>
+          </div>
         </div>
       </form>
 
