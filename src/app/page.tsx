@@ -1,4 +1,5 @@
 import { searchBooks } from "@/services/openLibraryService";
+import BookCard from "@/components/BookCard";
 
 type Book = {
   key?: string;
@@ -31,10 +32,12 @@ export default async function Home() {
         <h2 className="page-heading">Recomendados</h2>
         <div className="page-grid mt-4">
           {docs.map((b) => (
-            <article key={b.key ?? b.title} className="card">
-              <h3 className="card__title">{b.title}</h3>
-              <div className="card__content">{b.author_name ? b.author_name.join(", ") : "Autor desconocido"}</div>
-            </article>
+            <BookCard
+              key={b.key ?? b.title}
+              workKey={b.key}
+              title={b.title}
+              authors={b.author_name}
+            />
           ))}
         </div>
       </section>
