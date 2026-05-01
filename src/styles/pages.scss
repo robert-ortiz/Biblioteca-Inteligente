@@ -17,7 +17,7 @@
 .page-heading {
   font-size: $font-size-2xl;
   font-weight: $font-weight-bold;
-  color: $color-text-primary;
+  color: var(--text);
 
   @media (max-width: $breakpoint-sm) {
     font-size: $font-size-xl;
@@ -26,14 +26,14 @@
 
 .page-subheading {
   font-size: $font-size-sm;
-  color: $color-text-tertiary;
+  color: var(--text-tertiary);
   margin-top: $spacing-sm;
 }
 
 .page-description {
   font-size: $font-size-base;
   line-height: 1.75;
-  color: $color-text-secondary;
+  color: var(--text-secondary);
   max-width: 42rem;
 }
 
@@ -47,21 +47,22 @@
 }
 
 .card {
-  border: 1px solid $color-border-light;
+  border: 1px solid var(--border-light);
   border-radius: $border-radius-lg;
-  background: rgba(24, 24, 27, 0.5);
+  /* Usamos color-mix para mantener la opacidad del 50% basada en el color de la tarjeta dinámica */
+  background-color: color-mix(in srgb, var(--card) 50%, transparent);
   padding: $spacing-lg;
 
   &__title {
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    color: var(--text);
     margin-bottom: $spacing-md;
   }
 
   &__content {
     font-size: $font-size-sm;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
     line-height: 1.6;
   }
 }
@@ -71,9 +72,10 @@
   align-items: center;
   justify-content: center;
   height: 20rem;
-  border: 2px dashed $color-border;
+  border: 2px dashed var(--border);
   border-radius: $border-radius-lg;
-  background: rgba(24, 24, 27, 0.3);
+  /* Mantenemos la opacidad del 30% usando nuestra variable dinámica */
+  background-color: color-mix(in srgb, var(--bg-secondary) 30%, transparent);
   text-align: center;
 
   &__content {
@@ -88,11 +90,11 @@
 
   &__title {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: var(--text);
   }
 
   &__description {
     font-size: $font-size-sm;
-    color: $color-text-muted;
+    color: var(--text-muted);
   }
 }

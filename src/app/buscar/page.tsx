@@ -12,26 +12,31 @@ function BuscarContent() {
   const queryUrl = searchParams.get("q") || "";
   const typeUrl = searchParams.get("type") || "q";
   const sortUrl = searchParams.get("sort") || "";
+  const [page, setPage] = useState(1);
 
   const [query, setQuery] = useState(queryUrl);
   const [type, setType] = useState(typeUrl); 
   const [sort, setSort] = useState(sortUrl); 
   const [results, setResults] = useState<any[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(!!queryUrl);
+
+  const totalPages = Math.ceil(total / 100);
   useEffect(() => {
     if (queryUrl) {
-      ejecutarBusqueda(queryUrl, typeUrl, sortUrl);
+      ejecutarBusqueda(queryUrl, typeUrl, sortUrl, page);
     }
-  }, [queryUrl, typeUrl, sortUrl]);
+  }, [queryUrl, typeUrl, sortUrl, page]);
 
-  const ejecutarBusqueda = async (q: string, t: string, s: string) => {
+  const ejecutarBusqueda = async (q: string, t: string, s: string, p: number) => {
     setLoading(true);
     setError("");
     try {
-      const data = await searchBooks(q, t, s);
+      const data = await searchBooks(q, t, s, p);
       setResults(data.docs || []);
+      setTotal(data.numFound || 0);
     } catch (err) {
       setError("Error al conectar con Open Library.");
     } finally {
@@ -43,6 +48,7 @@ function BuscarContent() {
     e.preventDefault();
     if (!query.trim()) return;
     setHasSearched(true);
+    setPage(1);
     router.push(`/buscar?q=${query}&type=${type}&sort=${sort}`);
   };
 
@@ -109,6 +115,27 @@ function BuscarContent() {
           ))}
         </div>
       )}
+{!loading && results.length > 0 && (
+  <div className="flex justify-center gap-4 mt-10">
+    <button
+      disabled={page <= 1}
+      onClick={() => setPage(page - 1)}
+      className="btn btn--secondary"
+    >
+      Anterior
+    </button>
+
+    <span className="text-white">Página {page}</span>
+
+    <button
+      disabled={page >= totalPages}
+      onClick={() => setPage(page + 1)}
+      className="btn btn--primary"
+    >
+      Siguiente
+    </button>
+  </div>
+)}
     </section>
   );
 }

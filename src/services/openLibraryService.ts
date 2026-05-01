@@ -7,12 +7,14 @@ const OPEN_LIBRARY_API = 'https://openlibrary.org';
  * @param type - Tipo de búsqueda (q, title, author)
  * @param sort - Ordenamiento (new, old, editions)
  */
-export async function searchBooks(query: string, type: string = 'q', sort: string = '') {
+export async function searchBooks(query: string, type: string = 'q', sort: string = '', page: number = 1) {
   try {
     // Aquí armamos el link largo que mencionabas antes
     // Si hay sort, lo agregamos al link, si no, se queda vacío
-    const url = `${OPEN_LIBRARY_API}/search.json?${type}=${encodeURIComponent(query)}${sort ? `&sort=${sort}` : ''}`;
-    
+    let url = `${OPEN_LIBRARY_API}/search.json?${type}=${encodeURIComponent(query)}&page=${page}`;
+    if (sort && sort !== "") {
+      url += `&sort=${sort}`;
+    }
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error en búsqueda: ${response.status}`);

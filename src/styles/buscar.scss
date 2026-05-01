@@ -25,20 +25,20 @@
   &__input {
     flex: 1;
     padding: $spacing-md;
-    border: 1px solid $color-border;
+    border: 1px solid var(--border);
     border-radius: $border-radius-md;
-    background-color: $color-background-secondary;
-    color: $color-text-primary;
+    background-color: var(--bg-secondary);
+    color: var(--text);
     font-size: $font-size-base;
     transition: border-color $transition-base;
 
     &::placeholder {
-      color: $color-text-muted;
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: $color-primary;
+      border-color: var(--primary);
     }
   }
 
@@ -47,24 +47,25 @@
     align-items: center;
     justify-content: center;
     padding: $spacing-md $spacing-xl;
-    background-color: $color-primary;
-    color: $color-text-primary;
+    background-color: var(--primary);
+    /* Forzamos texto blanco en el botón primario, o usamos la variable de texto si quieres que cambie */
+    color: #ffffff; 
     border: none;
     border-radius: $border-radius-md;
     font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-bold;
     cursor: pointer;
     transition: background-color $transition-base;
     white-space: nowrap;
 
     &:hover {
-      background-color: $color-primary-dark;
+      background-color: var(--primary-dark);
     }
   }
 
   &__hint {
     margin-top: $spacing-2xl;
     font-size: $font-size-sm;
-    color: $color-text-muted;
+    color: var(--text-muted);
   }
 }

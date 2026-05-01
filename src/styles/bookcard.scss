@@ -6,17 +6,18 @@
   gap: $spacing-sm;
   padding: $spacing-md;
   border-radius: $border-radius-md;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid $color-border-light;
+  /* Reemplazamos el rgba estático por el color secundario dinámico */
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
 
   & .card__title {
     font-size: $font-size-lg;
-    color: $color-text-primary;
+    color: var(--text);
   }
 
   & .card__content {
     font-size: $font-size-sm;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
   }
 
   & .card__actions {
