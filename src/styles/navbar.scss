@@ -4,10 +4,13 @@
   position: sticky;
   top: 0;
   z-index: $z-navbar;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(9, 9, 11, 0.95);
+  /* Usamos las variables del tema */
+  border-bottom: 1px solid var(--border);
+  background-color: var(--bg);
+  /* Un pequeño truco para mantener el blur en ambos modos de forma elegante */
+  background-color: color-mix(in srgb, var(--bg) 95%, transparent);
   backdrop-filter: blur(10px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   &__container {
     max-width: 80rem;
@@ -21,12 +24,12 @@
   &__brand {
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    color: var(--text);
     text-decoration: none;
     transition: color $transition-base;
 
     &:hover {
-      color: $color-primary-light;
+      color: var(--primary-light);
     }
   }
 
@@ -46,16 +49,16 @@
   &__link {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: $color-text-tertiary;
+    color: var(--text-tertiary);
     text-decoration: none;
     transition: color $transition-base;
 
     &:hover {
-      color: $color-text-primary;
+      color: var(--text);
     }
 
     &--active {
-      color: $color-text-primary;
+      color: var(--text);
 
       &::after {
         content: "";
@@ -64,7 +67,8 @@
         left: 0;
         right: 0;
         height: 2px;
-        background: linear-gradient(to right, #3b82f6, #60a5fa);
+        /* Puedes usar las variables primary aquí también si quieres evitar el hex duro */
+        background: linear-gradient(to right, var(--primary), var(--primary-light));
       }
     }
   }

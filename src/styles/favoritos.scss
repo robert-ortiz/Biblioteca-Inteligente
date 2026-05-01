@@ -17,9 +17,9 @@
     justify-content: center;
     height: 20rem;
     margin-top: $spacing-2xl;
-    border: 2px dashed $color-border;
+    border: 2px dashed var(--border);
     border-radius: $border-radius-lg;
-    background: rgba(24, 24, 27, 0.3);
+    background-color: color-mix(in srgb, var(--bg-secondary) 30%, transparent);
   }
 
   &__empty-content {
@@ -35,12 +35,12 @@
 
   &__empty-title {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: var(--text);
   }
 
   &__empty-description {
     font-size: $font-size-sm;
-    color: $color-text-muted;
+    color: var(--text-muted);
   }
 
   &__empty-button {
@@ -48,8 +48,8 @@
     align-items: center;
     justify-content: center;
     padding: $spacing-md $spacing-lg;
-    background-color: $color-primary;
-    color: $color-text-primary;
+    background-color: var(--primary);
+    color: #ffffff; /* Contraste del botón primario */
     border: none;
     border-radius: $border-radius-md;
     font-size: $font-size-sm;
@@ -60,7 +60,7 @@
     align-self: center;
 
     &:hover {
-      background-color: $color-primary-dark;
+      background-color: var(--primary-dark);
     }
   }
 }

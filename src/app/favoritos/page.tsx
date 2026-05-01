@@ -1,21 +1,73 @@
-export default function FavoritosPage() {
-  return (
-    <section className="page-section favoritos">
-      <div className="favoritos__header">
-        <h1 className="page-heading">Mis favoritos</h1>
-        <p className="page-subheading">Tus libros guardados localmente</p>
-      </div>
+"use client";
 
-      <div className="favoritos__empty">
-        <div className="favoritos__empty-content">
-          <div className="favoritos__empty-icon">📚</div>
-          <p className="favoritos__empty-title">No tienes libros guardados todavía</p>
-          <p className="favoritos__empty-description">Guarda libros desde la búsqueda para verlos aquí</p>
-          <a href="/buscar" className="favoritos__empty-button">
-            Ir a buscar
-          </a>
+import { useEffect, useState } from "react";
+import { getFavorites } from "@/utils/favorites";
+import { getBookDetails } from "@/services/openLibraryService";
+import BookCard from "@/components/BookCard";
+import Loading from "@/components/Loading";
+import ErrorMessage from "@/components/ErrorMessage";
+
+export default function FavoritosPage() {
+  const [books, setBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadFavorites = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const ids = getFavorites(); // ["OL123W", ...]
+
+        const results = await Promise.all(
+          ids.map(async (id: string) => {
+            const data = await getBookDetails(id);
+
+            return {
+              key: id,
+              title: data.title,
+              author_name: data.authors?.map((a: any) => a.name) || ["Autor desconocido"],
+            };
+          })
+        );
+
+        setBooks(results);
+      } catch (err) {
+        setError("Error al cargar favoritos");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFavorites();
+  }, []);
+
+  return (
+    <section className="p-6 md:p-10">
+      <h1 className="text-4xl font-bold text-white mb-8">
+        Mis Favoritos
+      </h1>
+
+      {loading && <Loading />}
+      {error && <ErrorMessage message={error} />}
+
+      {!loading && books.length === 0 && (
+        <p className="text-zinc-400">No tienes favoritos aún.</p>
+      )}
+
+      {!loading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {books.map((book) => (
+            <BookCard
+              key={book.key}
+              workKey={book.key}
+              title={book.title}
+              authors={book.author_name}
+            />
+          ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }

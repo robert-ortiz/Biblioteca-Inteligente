@@ -22,22 +22,22 @@
   }
 
   &__card {
-    border: 1px solid $color-border-light;
+    border: 1px solid var(--border-light);
     border-radius: $border-radius-lg;
-    background: rgba(24, 24, 27, 0.5);
+    background-color: color-mix(in srgb, var(--card) 50%, transparent);
     padding: $spacing-lg;
   }
 
   &__card-title {
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    color: var(--text);
     margin-bottom: $spacing-md;
   }
 
   &__card-content {
     font-size: $font-size-sm;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
     line-height: 1.6;
   }
 
@@ -52,7 +52,7 @@
       gap: $spacing-sm;
 
       span {
-        color: $color-primary;
+        color: var(--primary);
       }
     }
   }
@@ -62,7 +62,7 @@
   }
 
   &__link {
-    color: $color-primary;
+    color: var(--primary);
     text-decoration: none;
     font-weight: $font-weight-semibold;
     transition: color $transition-base;

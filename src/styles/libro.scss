@@ -10,8 +10,8 @@
     justify-content: center;
     padding: $spacing-md $spacing-lg;
     background-color: transparent;
-    color: $color-text-primary;
-    border: 1px solid $color-border;
+    color: var(--text);
+    border: 1px solid var(--border);
     border-radius: $border-radius-md;
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
@@ -21,14 +21,14 @@
     width: fit-content;
 
     &:hover {
-      background-color: $color-background-secondary;
+      background-color: var(--bg-secondary);
     }
   }
 
   &__title {
     font-size: $font-size-4xl;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    color: var(--text);
     margin-bottom: $spacing-sm;
   }
 
@@ -52,11 +52,11 @@
   &__cover {
     aspect-ratio: 16 / 9;
     border-radius: $border-radius-lg;
-    background-color: $color-background-secondary;
+    background-color: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $color-text-muted;
+    color: var(--text-muted);
   }
 
   &__add-favorite-button {
@@ -64,8 +64,8 @@
     align-items: center;
     justify-content: center;
     padding: $spacing-md $spacing-lg;
-    background-color: $color-primary;
-    color: $color-text-primary;
+    background-color: var(--primary);
+    color: #ffffff; /* Forzamos blanco para contraste con el botón primario */
     border: none;
     border-radius: $border-radius-md;
     font-size: $font-size-sm;
@@ -75,7 +75,7 @@
     width: 100%;
 
     &:hover {
-      background-color: $color-primary-dark;
+      background-color: var(--primary-dark);
     }
   }
 
@@ -83,7 +83,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-lg;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
   }
 
   &__info-block {
@@ -93,7 +93,7 @@
 
   &__info-title {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: var(--text);
   }
 
   &__info-value {
@@ -102,7 +102,7 @@
 
   &__info-id {
     font-size: $font-size-xs;
-    color: $color-text-muted;
+    color: var(--text-muted);
     margin-top: $spacing-lg;
   }
 }
